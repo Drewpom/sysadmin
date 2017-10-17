@@ -243,19 +243,7 @@ void LocalYAMLStorage::GroupSet(const ConfigPairList& items)
 
         for (auto item : path.second)
         {
-            // TODO: This might be wrong, though the current behavior works. Basically,
-            // when last.* keys are set initially they're all empty, and they shouldn't
-            // be written to disc, but this if results in them being written. It's not a
-            // problem that they're written to disc, since we handle them on the loading
-            // side, but they should never be written in the first place
-            if (item.second.GetValue().Empty() && config[item.first])
-            {
-                config.remove(item.first);
-            }
-            else
-            {
-                config[item.first] = UnpackIntoYAML(item.second);
-            }
+            config[item.first] = UnpackIntoYAML(item.second);
         }
 
         if (!bfs::exists(rootpath.parent_path()))
